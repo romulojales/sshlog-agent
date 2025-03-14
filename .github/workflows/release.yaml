@@ -19,7 +19,7 @@ jobs:
         - uses: actions/checkout@v4
         - name: Building Docker Image
           run: |
-               docker build -t sshlog-build .
+               docker build -t sshlog-build --target builder .
                
         - name: Extracting RPM and DEB
           run: |
