@@ -18,6 +18,10 @@ jobs:
       contents: write
     steps:
         - uses: actions/checkout@v4
+        - name: Configuring git user
+          run: |
+               git config --local user.email "actions@github.com"
+               git config --local user.name "Github Actions"
         - name: Building Docker Image
           run: |
                docker build -t sshlog-build --target builder .
