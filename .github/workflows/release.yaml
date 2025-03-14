@@ -20,6 +20,7 @@ jobs:
         - name: Building Docker Image
           run: |
                docker build -t sshlog-build --target builder .
+               docker run sshlog-build ls /build
                
         - name: Extracting RPM and DEB
           run: |
