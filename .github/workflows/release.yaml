@@ -34,7 +34,7 @@ jobs:
         - name: Tagging Repo
           run: |
                git tag -a ${TAG_VERSION} -m  ${TAG_VERSION}
-
+               git push --tags
         - name: Releasing
           run: |
                gh release create --verify-tag ${TAG_VERSION} releases/*
