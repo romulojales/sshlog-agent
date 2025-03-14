@@ -20,13 +20,11 @@ jobs:
         - name: Building Docker Image
           run: |
                docker build -t sshlog-build --target builder .
-               docker run sshlog-build ls /build
                
         - name: Extracting RPM and DEB
           run: |
                mkdir -p releases
-               docker run -v ./releases:/releases sshlog-build cp /build/*deb /releases
-               docker run -v ./releases:/releases sshlog-build cp /build/*rpm /releases
+               docker run -v ./releases:/releases sshlog-build cp /build/sshlog_1.0.0_amd64.deb /releases
 
         - name: Tagging Repo
           run: |
