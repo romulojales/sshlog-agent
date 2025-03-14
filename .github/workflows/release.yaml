@@ -1,0 +1,37 @@
+name: Release
+on:
+  workflow_call:
+        inputs:
+                tag:
+                        description: 'Version TAG'
+                        required: true
+                        type: string
+jobs:
+  
+  release-version:
+    env:
+        TAG_VERSION: ${{github.event.inputs.release-type}}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+        - uses: actions/checkout@v4
+        - name: Building Docker Image
+          run: |
+               docker build -t sshlog-build .
+        - name: Extracting RPM and DEB
+          run: |
+               mkdir -p releases
+               docker run -v ./releases:/releases sshlog-build cp /build/*deb /releases
+               docker run -v ./releases:/releases sshlog-build cp /build/*rpm /releases
+
+        - name: Tagging Repo
+          run: |
+               git tag -a ${TAG_VERSION} -m  ${TAG_VERSION}
+
+        - name: Releasing
+          run: |
+               gh release create --verify-tag $TAG_VERSION releases/*
+               
+               
